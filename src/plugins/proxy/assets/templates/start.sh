@@ -51,7 +51,7 @@ sudo docker run \
   --restart=always \
   --log-opt max-size=100m \
   --log-opt max-file=7 \
-  --network bridge \
+  --network host \
   -v $TEMPLATE_PATH:/app/nginx.tmpl:ro \
   -v /opt/$APPNAME/mounted-certs:/etc/nginx/certs \
   -v /opt/$APPNAME/config/vhost.d:/etc/nginx/vhost.d \
