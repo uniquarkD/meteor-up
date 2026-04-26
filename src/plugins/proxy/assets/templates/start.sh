@@ -51,7 +51,7 @@ sudo docker run \
   --restart=always \
   --log-opt max-size=100m \
   --log-opt max-file=7 \
-  --network host \
+  --network <%= useHostNetwork ? 'host' : 'bridge' %> \
   -v $TEMPLATE_PATH:/app/nginx.tmpl:ro \
   -v /opt/$APPNAME/mounted-certs:/etc/nginx/certs \
   -v /opt/$APPNAME/config/vhost.d:/etc/nginx/vhost.d \
@@ -65,9 +65,11 @@ echo "Ran nginx-proxy as $APPNAME"
 
 sleep 2s
 
+<% if (!useHostNetwork) { %>
 if docker network inspect mup-proxy ; then
   docker network connect mup-proxy $APPNAME
 fi
+<% } %>
 
 sudo docker run \
   -d \
